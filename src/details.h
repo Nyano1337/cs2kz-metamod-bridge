@@ -10,3 +10,10 @@ public:
 public:
 	static void OnTryLoadKZPlugin();
 };
+
+struct ScriptingEventTable {
+	void (*OnTimerStartPost)(void* pPlayerController, u32 courseGUID);
+	void (*OnTimerEndPost)(void* pPlayerController, u32 courseGUID, f32 time, u32 teleportsUsed);
+};
+
+DLL_EXPORT void RegisterScriptingEventTable(ScriptingEventTable* pScriptingEventTable);

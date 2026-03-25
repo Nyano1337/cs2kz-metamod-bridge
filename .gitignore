@@ -15,3 +15,6 @@ Source2Mod.dll
 out
 .vs
 .vscode
+/src/managed/*/obj
+/src/managed/*/bin
+*.user
