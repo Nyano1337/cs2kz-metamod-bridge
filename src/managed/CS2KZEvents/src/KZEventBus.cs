@@ -4,7 +4,7 @@ namespace CS2KZEvents.src;
 
 internal partial class KZEventBus : IDisposable
 {
-	[LibraryImport("cs2kz-bridge.dll", EntryPoint = "RegisterScriptingEventTable")]
+	[LibraryImport("cs2kz-bridge", EntryPoint = "RegisterScriptingEventTable")]
 	[UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
 	private static partial void RegisterScriptingEventTable(nint scriptingTable);
 
