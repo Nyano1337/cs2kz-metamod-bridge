@@ -38,8 +38,8 @@ jobs:
           cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="cl" -DCMAKE_CXX_COMPILER="cl"
           cmake --build build
           xcopy /Y /I "build\*.dll" "$env:OUT_DIR"
-          ls ./build
-          ls ${{ github.workspace }}/game/csgo/addons/cs2kz-bridge/bin/
+          dir ./build
+          dir ${{ github.workspace }}/game/csgo/addons/cs2kz-bridge/bin/
         shell: cmd
         env:
           OUT_DIR: ${{ github.workspace }}/game/csgo/addons/cs2kz-bridge/bin/
