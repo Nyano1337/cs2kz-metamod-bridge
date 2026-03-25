@@ -19,11 +19,11 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
-		<Exec Command="xcopy /Y &quot;$(OutDir)$(ProjectName).*&quot; &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\&quot;" />
+		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\&quot;" />
 	</Target>
 
 	<Target Name="PostBuildCI" AfterTargets="PostBuildEvent" Condition="'$(CI)' == 'true'">
-		<Exec Command="xcopy /Y &quot;$(OutDir)$(ProjectName).*&quot; &quot;$(CI_OUTPUT_DIR)&quot;" />
+		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;$(CI_OUTPUT_DIR)&quot;" />
 	</Target>
 
 </Project>
