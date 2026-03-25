@@ -1,0 +1,46 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "cppgdb",
+      "debuggerConfiguration": "gdb",
+      "name": "Remote-CS2KZ",
+      "project": "CMakeLists.txt",
+      "projectTarget": "cs2kz-bridge.so",
+      "program": "${env.CS2_BIN}",
+      "args": [
+        "-insecure",
+        "-dedicated",
+        "-disable_workshop_command_filtering",
+        "+game_mode 0",
+        "+game_type 0",
+        "+map de_dust2",
+        "+developer 5",
+        "+sv_cheats 1",
+        "+host_workshop_map 3218634538"
+      ],
+      "env": {
+        "LD_LIBRARY_PATH": "${env.GAME_BIN}"
+      }
+    },
+    {
+      "type": "dll",
+      "name": "Local-CS2KZ",
+      "project": "CMakeLists.txt",
+      "exe": "${env.CS2_BIN}",
+      "args": [
+        "-insecure",
+        "-dedicated",
+        "-disable_workshop_command_filtering",
+        "+game_mode 0",
+        "+game_type 0",
+        "+map de_dust2",
+        "+developer 5",
+        "+sv_cheats 1",
+        "+host_workshop_map 3218634538"
+      ],
+      "projectTarget": ""
+    }
+  ]
+}

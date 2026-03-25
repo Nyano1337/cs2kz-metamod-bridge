@@ -1,0 +1,3 @@
+[submodule "cs2kz-metamod"]
+	path = cs2kz-metamod
+	url = https://github.com/KZGlobalTeam/cs2kz-metamod.git

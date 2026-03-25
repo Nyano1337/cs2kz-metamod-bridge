@@ -1,0 +1,5 @@
+"Metamod Plugin"
+{
+	"alias"	"CS2KZ-Bridge"
+	"file"	"addons/cs2kz-bridge/bin/cs2kz-bridge"
+}
