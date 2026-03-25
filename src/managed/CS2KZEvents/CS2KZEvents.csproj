@@ -8,14 +8,22 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="'$(CI)' != 'true'">
 		<Reference Include="SwiftlyS2.CS2">
 			<HintPath>D:\cs2_srv\game\csgo\addons\swiftlys2\bin\managed\SwiftlyS2.CS2.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<ItemGroup Condition="'$(CI)' == 'true'">
+		<PackageReference Include="SwiftlyS2.CS2" Version="1.2.2" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
 		<Exec Command="xcopy /Y &quot;$(OutDir)$(ProjectName).*&quot; &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\&quot;" />
+	</Target>
+
+	<Target Name="PostBuildCI" AfterTargets="PostBuildEvent" Condition="'$(CI)' == 'true'">
+		<Exec Command="xcopy /Y &quot;$(OutDir)$(ProjectName).*&quot; &quot;$(CI_OUTPUT_DIR)&quot;" />
 	</Target>
 
 </Project>

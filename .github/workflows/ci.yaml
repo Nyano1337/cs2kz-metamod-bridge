@@ -12,11 +12,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
           lfs: false
-
+      
       - name: Find Visual C++ compilers and make all environment variables global (W)
         shell: cmd
         run: |
@@ -37,3 +37,27 @@ jobs:
         run: |
           cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="cl" -DCMAKE_CXX_COMPILER="cl"
           cmake --build build
+        env:
+          OUT_DIR: ${{ github.workspace }}/game/csgo/addons/cs2kz-bridge/bin
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore and build
+        run: |
+          dotnet restore --locked-mode
+          dotnet build --configuration Release --no-restore
+        working-directory: .src/managed/CS2KZEvents
+        env:
+          CI: true
+          CI_OUTPUT_DIR: ${{ github.workspace }}/game/csgo/addons/swiftlys2/plugins/CS2KZEvents/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: CS2KZEvents-${{ github.run_number }}
+          path: ./game
+          compression-level: 9
+          if-no-files-found: error
