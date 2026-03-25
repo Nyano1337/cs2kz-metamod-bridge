@@ -61,3 +61,4 @@ jobs:
           path: ./game
           compression-level: 9
           if-no-files-found: error
+          retention-days: 1
