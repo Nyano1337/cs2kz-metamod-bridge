@@ -37,12 +37,10 @@ jobs:
         run: |
           cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="cl" -DCMAKE_CXX_COMPILER="cl"
           cmake --build build
-          xcopy /Y /I "build\*.dll" "$env:OUT_DIR"
-          dir ./build
-          dir ${{ github.workspace }}/game/csgo/addons/cs2kz-bridge/bin/
+          xcopy /Y /I "build\*.dll" "%OUT_DIR%\"
         shell: cmd
         env:
-          OUT_DIR: ${{ github.workspace }}/game/csgo/addons/cs2kz-bridge/bin/
+          OUT_DIR: ${{ github.workspace }}/game/csgo/addons/cs2kz-bridge/bin
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v5
