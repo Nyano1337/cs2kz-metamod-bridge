@@ -49,7 +49,7 @@ jobs:
         run: |
           dotnet restore --locked-mode
           dotnet build --configuration Release --no-restore
-        working-directory: .src/managed/CS2KZEvents
+        working-directory: ./src/managed/CS2KZEvents
         env:
           CI: true
           CI_OUTPUT_DIR: ${{ github.workspace }}/game/csgo/addons/swiftlys2/plugins/CS2KZEvents/
