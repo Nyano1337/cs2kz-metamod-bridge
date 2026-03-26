@@ -30,7 +30,10 @@ void CKZBridgePlugin::AllPluginsLoaded() {
 	}
 
 	pKZTimerService__RegisterEventListener = g_KZModule.FindPattern("48 89 4C 24 ? 48 83 EC ? 44 8B 0D ? ? ? ? 33 C0 45 85 C9 7E ? 48 8B 15").RCast<decltype(pKZTimerService__RegisterEventListener)>();
-	pKZTimerService__RegisterEventListener(&g_KZBridgeDetails);
+	if (pKZTimerService__RegisterEventListener) {
+		pKZTimerService__RegisterEventListener(&g_KZBridgeDetails);
+		CKZBridgeDetails::m_bInjected = true;
+	}
 }
 
 const char* CKZBridgePlugin::GetAuthor() {

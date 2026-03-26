@@ -1,25 +1,35 @@
+using CS2KZEvents.src.Events;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 
 namespace CS2KZEvents.src;
 
 [PluginMetadata(Id = "CS2KZEvents", Version = "1.0.0", Name = "CS2KZEvents", Author = "Nyano1337", Description = "cs2kz API for SwiftlyS2")]
-public partial class CS2KZEvents : BasePlugin
+internal partial class CS2KZEvents : BasePlugin
 {
 	private readonly ISwiftlyCore _core;
-	private readonly KZEventBus _kzEventBus;
+	private readonly KZEventPublisher _kzEventPublisher;
+	private readonly KZEventListener _kzEventListener;
+
 	public CS2KZEvents(ISwiftlyCore core) : base(core)
 	{
 		_core = core;
-		_kzEventBus = new KZEventBus();
+		_kzEventPublisher = new KZEventPublisher(_core);
+		_kzEventListener = new KZEventListener();
 
-		_core.Event.OnStartupServer += _kzEventBus.OnStartupServer;
+		_core.Event.OnStartupServer += _kzEventPublisher.OnStartupServer;
+	}
+
+	public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
+	{
+		interfaceManager.AddSharedInterface<IKZEventListener, KZEventListener>("KZEventListener", _kzEventListener);
 	}
 
 	public override void Load(bool hotReload) {}
 
 	public override void Unload()
 	{
-		_kzEventBus.Dispose();
+		_kzEventPublisher.Dispose();
+		_kzEventListener.Dispose();
 	}
 }
