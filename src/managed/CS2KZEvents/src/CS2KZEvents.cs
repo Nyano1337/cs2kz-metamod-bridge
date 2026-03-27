@@ -1,4 +1,5 @@
 using CS2KZEvents.Events;
+using CS2KZEvents.Shared;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Plugins;
 

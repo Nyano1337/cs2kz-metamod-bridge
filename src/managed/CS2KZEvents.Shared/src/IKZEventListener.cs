@@ -1,4 +1,4 @@
-namespace CS2KZEvents.Events;
+namespace CS2KZEvents.Shared;
 
 public interface IKZEventListener
 {

@@ -1,4 +1,5 @@
 using CS2KZEvents.Events;
+using CS2KZEvents.Shared;
 using CS2KZEvents.Structs;
 using Microsoft.Extensions.Logging;
 using SwiftlyS2.Shared;

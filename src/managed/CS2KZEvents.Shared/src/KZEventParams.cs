@@ -1,6 +1,6 @@
 using SwiftlyS2.Shared.SchemaDefinitions;
 
-namespace CS2KZEvents.Events;
+namespace CS2KZEvents.Shared;
 
 public readonly struct OnTimerStartPostEvent
 {

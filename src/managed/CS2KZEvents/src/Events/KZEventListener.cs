@@ -1,3 +1,5 @@
+using CS2KZEvents.Shared;
+
 namespace CS2KZEvents.Events;
 
 internal class KZEventListener : IKZEventListener, IDisposable

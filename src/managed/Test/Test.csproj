@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="CS2KZEvents">
-      <HintPath>D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\CS2KZEvents.dll</HintPath>
+    <Reference Include="CS2KZEvents.Shared">
+      <HintPath>D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\resources\exports\CS2KZEvents.Shared.dll</HintPath>
     </Reference>
   </ItemGroup>
 

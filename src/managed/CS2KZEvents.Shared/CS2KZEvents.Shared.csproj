@@ -18,20 +18,11 @@
 		<PackageReference Include="SwiftlyS2.CS2" Version="1.2.2" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.5" />
-		<ProjectReference Include="../CS2KZEvents.Shared/CS2KZEvents.Shared.csproj" />
-	</ItemGroup>
-
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
-		<Exec Command="if not exist &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\resources\exports&quot; mkdir &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\resources\exports&quot;" />
-		<Exec Command="move /Y &quot;$(OutDir)CS2KZEvents.Shared.*&quot; &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\resources\exports\&quot;" />
 		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\&quot;" />
 	</Target>
 
 	<Target Name="PostBuildCI" AfterTargets="PostBuildEvent" Condition="'$(CI)' == 'true'">
-		<Exec Command="if not exist &quot;$(CI_OUTPUT_DIR)\resources\exports&quot; mkdir &quot;$(CI_OUTPUT_DIR)\resources\exports&quot;" />
-		<Exec Command="move /Y &quot;$(OutDir)CS2KZEvents.Shared.*&quot; &quot;$(CI_OUTPUT_DIR)\resources\exports\&quot;" />
 		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;$(CI_OUTPUT_DIR)&quot;" />
 	</Target>
 
