@@ -1,12 +1,12 @@
-using CS2KZEvents.src.Events;
-using CS2KZEvents.src.Structs;
+using CS2KZEvents.Events;
+using CS2KZEvents.Structs;
 using Microsoft.Extensions.Logging;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.SchemaDefinitions;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace CS2KZEvents.src;
+namespace CS2KZEvents;
 
 internal partial class KZEventPublisher : IDisposable
 {

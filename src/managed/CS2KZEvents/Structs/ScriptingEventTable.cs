@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace CS2KZEvents.src.Structs;
+namespace CS2KZEvents.Structs;
 
 [StructLayout(LayoutKind.Explicit)]
 internal unsafe struct ScriptingEventTable

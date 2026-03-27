@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "ZombiEden.CS2.SwiftlyS2.Timer": {
+      "commandName": "Project"
+    },
+    "cs2server": {
+      "commandName": "Executable",
+      "executablePath": "D:\\cs2_srv\\game\\bin\\win64\\cs2.exe",
+      "commandLineArgs": "-dedicated -insecure +game_mode 0 +game_type 0 +map de_dust2 -disable_workshop_command_filtering +host_workshop_map 3218634538",
+      "workingDirectory": "D:\\cs2_srv\\game\\bin\\win64",
+      "nativeDebugging": true
+    }
+  }
+}

@@ -17,4 +17,5 @@ out
 .vscode
 /src/managed/*/obj
 /src/managed/*/bin
+/src/managed/*/build
 *.user
