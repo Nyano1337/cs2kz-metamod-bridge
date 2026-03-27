@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<PlatformTarget>x64</PlatformTarget>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LocalPluginPath>D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents</LocalPluginPath>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(CI)' != 'true'">
@@ -24,9 +25,9 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
-		<Exec Command="if not exist &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\resources\exports&quot; mkdir &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\resources\exports&quot;" />
-		<Exec Command="move /Y &quot;$(OutDir)CS2KZEvents.Shared.*&quot; &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\resources\exports\&quot;" />
-		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;D:\cs2_srv\game\csgo\addons\swiftlys2\plugins\CS2KZEvents\&quot;" />
+		<Exec Command="if not exist &quot;$(LocalPluginPath)\resources\exports&quot; mkdir &quot;$(LocalPluginPath)\resources\exports&quot;" />
+		<Exec Command="move /Y &quot;$(OutDir)CS2KZEvents.Shared.*&quot; &quot;$(LocalPluginPath)\resources\exports\&quot;" />
+		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;$(LocalPluginPath)\&quot;" />
 	</Target>
 
 	<Target Name="PostBuildCI" AfterTargets="PostBuildEvent" Condition="'$(CI)' == 'true'">
