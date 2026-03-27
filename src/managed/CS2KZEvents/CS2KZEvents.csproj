@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -27,12 +27,14 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
 		<Exec Command="if not exist &quot;$(LocalPluginPath)\resources\exports&quot; mkdir &quot;$(LocalPluginPath)\resources\exports&quot;" />
 		<Exec Command="move /Y &quot;$(OutDir)CS2KZEvents.Shared.*&quot; &quot;$(LocalPluginPath)\resources\exports\&quot;" />
+		<Exec Command="move /Y &quot;$(LocalPluginPath)\CS2KZEvents.Shared.*&quot; &quot;$(LocalPluginPath)\resources\exports\&quot;" ContinueOnError="true" />
 		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;$(LocalPluginPath)\&quot;" />
 	</Target>
 
 	<Target Name="PostBuildCI" AfterTargets="PostBuildEvent" Condition="'$(CI)' == 'true'">
 		<Exec Command="if not exist &quot;$(CI_OUTPUT_DIR)\resources\exports&quot; mkdir &quot;$(CI_OUTPUT_DIR)\resources\exports&quot;" />
 		<Exec Command="move /Y &quot;$(OutDir)CS2KZEvents.Shared.*&quot; &quot;$(CI_OUTPUT_DIR)\resources\exports\&quot;" />
+		<Exec Command="move /Y &quot;$(CI_OUTPUT_DIR)\CS2KZEvents.Shared.*&quot; &quot;$(LocalPluginPath)\resources\exports\&quot;" ContinueOnError="true" />
 		<Exec Command="xcopy /Y /I &quot;$(OutDir)$(ProjectName).*&quot; &quot;$(CI_OUTPUT_DIR)&quot;" />
 	</Target>
 
