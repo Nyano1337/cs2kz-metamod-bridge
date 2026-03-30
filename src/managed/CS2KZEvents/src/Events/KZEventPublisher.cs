@@ -1,9 +1,9 @@
 using CS2KZEvents.Events;
 using CS2KZEvents.Shared;
 using CS2KZEvents.Structs;
-using Microsoft.Extensions.Logging;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.SchemaDefinitions;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -55,9 +55,39 @@ internal partial class KZEventPublisher : IDisposable
 		}
 	}
 
+	public static bool IsModuleLoaded(string moduleName)
+	{
+		var process = Process.GetCurrentProcess();
+		string normalizedName = NormalizeModuleName(moduleName);
+
+		return process.Modules.Cast<ProcessModule>()
+			.Any(m => NormalizeModuleName(m.ModuleName) == normalizedName);
+	}
+
+	private static string NormalizeModuleName(string name)
+	{
+		if (string.IsNullOrEmpty(name)) return name;
+
+		if (name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+		{
+			name = name[..^4];
+		}
+		else if (name.EndsWith(".so", StringComparison.OrdinalIgnoreCase))
+		{
+			name = name[..^3];
+		}
+
+		return name;
+	}
+
 	// ensure cs2kz and cs2kz-bridge is loaded
 	public void OnStartupServer()
 	{
+		if (!IsModuleLoaded("cs2kz-bridge"))
+		{
+			return;
+		}
+
 		unsafe
 		{
 			if (_scriptingEventTable == null)
@@ -67,21 +97,7 @@ internal partial class KZEventPublisher : IDisposable
 				_scriptingEventTable->fnOnTimerEndPost = &OnTimerEndPost;
 			}
 
-			bool registerSuccess = false;
-
-			try
-			{
-				registerSuccess = RegisterScriptingEventTable((nint)_scriptingEventTable);
-			}
-			catch (DllNotFoundException e)
-			{
-				_core.Logger.LogError(e, "cs2kz-bridge.dll or .so not found.");
-
-				Dispose();
-				return;
-			}
-
-			if (!registerSuccess)
+			if (!RegisterScriptingEventTable((nint)_scriptingEventTable))
 			{
 				Dispose();
 				throw new Exception("RegisterScriptingEventTable failed");
