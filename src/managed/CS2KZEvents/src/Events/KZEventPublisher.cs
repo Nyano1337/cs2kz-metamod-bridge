@@ -34,6 +34,7 @@ internal partial class KZEventPublisher : IDisposable
 			if (_scriptingEventTable != null)
 			{
 				NativeMemory.Free(_scriptingEventTable);
+				_scriptingEventTable = null;
 			}
 		}
 	}
@@ -72,11 +73,10 @@ internal partial class KZEventPublisher : IDisposable
 			{
 				registerSuccess = RegisterScriptingEventTable((nint)_scriptingEventTable);
 			}
-			catch (Exception e)
+			catch (DllNotFoundException e)
 			{
-				_core.Logger.LogError(e, "Call RegisterScriptingEventTable failed.");
+				_core.Logger.LogError(e, "cs2kz-bridge.dll or .so not found.");
 
-				// maybe dll not found
 				Dispose();
 				return;
 			}
