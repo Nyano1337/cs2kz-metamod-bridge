@@ -6,14 +6,14 @@ public readonly struct OnTimerStartPostEvent
 {
 	public CCSPlayerController PlayerController { get; init; }
 	public string Mode { get; init; }
-	public uint CourseGUID { get; init; }
+	public string Course { get; init; }
 }
 
 public readonly struct OnTimerEndPostEvent
 {
 	public CCSPlayerController PlayerController { get; init; }
 	public string Mode { get; init; }
-	public uint CourseGUID { get; init; }
+	public string Course { get; init; }
 	public float Time { get; init; }
 	public uint TeleportsUsed { get; init; }
 }

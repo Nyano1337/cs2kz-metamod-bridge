@@ -17,12 +17,12 @@ bool RegisterScriptingEventTable(ScriptingEventTable* pScriptingEventTable) {
 
 void CKZBridgeDetails::OnTimerStartPost(KZPlayer* player, u32 courseGUID) {
 	if (g_pScriptingEventTable) {
-		g_pScriptingEventTable->OnTimerStartPost(player->GetController(), player->modeService->GetModeShortName(), courseGUID);
+		g_pScriptingEventTable->OnTimerStartPost(player->GetController(), player->modeService->GetModeShortName(), KZ::course::GetCourse(courseGUID)->GetName().Get());
 	}
 }
 
 void CKZBridgeDetails::OnTimerEndPost(KZPlayer* player, u32 courseGUID, f32 time, u32 teleportsUsed) {
 	if (g_pScriptingEventTable) {
-		g_pScriptingEventTable->OnTimerEndPost(player->GetController(), player->modeService->GetModeShortName(), courseGUID, time, teleportsUsed);
+		g_pScriptingEventTable->OnTimerEndPost(player->GetController(), player->modeService->GetModeShortName(), KZ::course::GetCourse(courseGUID)->GetName().Get(), time, teleportsUsed);
 	}
 }

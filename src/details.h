@@ -12,8 +12,8 @@ public:
 };
 
 struct ScriptingEventTable {
-	void (*OnTimerStartPost)(void* pPlayerController, const char* pszMode, u32 courseGUID);
-	void (*OnTimerEndPost)(void* pPlayerController, const char* pszMode, u32 courseGUID, f32 time, u32 teleportsUsed);
+	void (*OnTimerStartPost)(void* pPlayerController, const char* pszMode, const char* pszCourse);
+	void (*OnTimerEndPost)(void* pPlayerController, const char* pszMode, const char* pszCourse, f32 time, u32 teleportsUsed);
 };
 
 DLL_EXPORT bool RegisterScriptingEventTable(ScriptingEventTable* pScriptingEventTable);

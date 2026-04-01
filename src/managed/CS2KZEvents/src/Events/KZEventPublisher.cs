@@ -106,13 +106,13 @@ internal partial class KZEventPublisher : IDisposable
 	}
 
 	[UnmanagedCallersOnly]
-	internal unsafe static void OnTimerStartPost(nint pPlayerController, byte* pszMode, uint courseGUID)
+	internal unsafe static void OnTimerStartPost(nint pPlayerController, byte* pszMode, byte* pszCourse)
 	{
 		OnTimerStartPostEvent @event = new()
 		{
 			PlayerController = Helper.AsSchema<CCSPlayerController>(pPlayerController),
 			Mode = Marshal.PtrToStringUTF8((nint)pszMode) ?? "NULL",
-			CourseGUID = courseGUID
+			Course = Marshal.PtrToStringUTF8((nint)pszCourse) ?? "NULL",
 		};
 
 		foreach (var sub in subscribers)
@@ -122,13 +122,13 @@ internal partial class KZEventPublisher : IDisposable
 	}
 
 	[UnmanagedCallersOnly]
-	internal unsafe static void OnTimerEndPost(nint pPlayerController, byte* pszMode, uint courseGUID, float time, uint teleportsUsed)
+	internal unsafe static void OnTimerEndPost(nint pPlayerController, byte* pszMode, byte* pszCourse, float time, uint teleportsUsed)
 	{
 		OnTimerEndPostEvent @event = new()
 		{
 			PlayerController = Helper.AsSchema<CCSPlayerController>(pPlayerController),
 			Mode = Marshal.PtrToStringUTF8((nint)pszMode) ?? "NULL",
-			CourseGUID = courseGUID,
+			Course = Marshal.PtrToStringUTF8((nint)pszCourse) ?? "NULL",
 			Time = time,
 			TeleportsUsed = teleportsUsed
 		};
