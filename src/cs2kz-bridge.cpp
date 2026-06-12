@@ -26,12 +26,13 @@ void CKZBridgePlugin::AllPluginsLoaded() {
 		return;
 	}
 
-	pKZTimerService__RegisterEventListener = g_KZModule.FindPattern("48 89 4C 24 ? 48 83 EC ? 44 8B 0D ? ? ? ? 33 C0 45 85 C9 7E ? 48 8B 15").RCast<decltype(pKZTimerService__RegisterEventListener)>();
+	auto pKZRecordingService__Init = g_KZModule.FindPattern("48 83 EC ? 48 8D 0D ? ? ? ? E8 ? ? ? ? B9");
+	pKZTimerService__RegisterEventListener = pKZRecordingService__Init.Offset(11).FollowNearCallSelf().RCast<decltype(pKZTimerService__RegisterEventListener)>();
 	if (pKZTimerService__RegisterEventListener) {
 		pKZTimerService__RegisterEventListener(&g_KZBridgeDetails);
 	}
 
-	pKZ__course__GetCourseByGUID = g_KZModule.FindPattern("44 8B 0D ? ? ? ? 33 D2 45 85 C9 7E ? 4C 8B 15 ? ? ? ? 4D 8B C2 0F 1F 84 00 ? ? ? ? 49 8B 00 39 88 C8 00 00 00").RCast<decltype(pKZ__course__GetCourseByGUID)>();
+	pKZ__course__GetCourseByGUID = g_KZModule.FindPattern("44 8B 0D ? ? ? ? 45 85 C9 7E ? 4C 8B 15 ? ? ? ? 33 C0 66 66 66 0F 1F 84 00 ? ? ? ? 4C 63 C0 4B 8B 14 C2 39 8A C8 00 00 00").RCast<decltype(pKZ__course__GetCourseByGUID)>();
 
 	if (pKZTimerService__RegisterEventListener && pKZ__course__GetCourseByGUID) {
 		CKZBridgeDetails::m_bInjected = true;
