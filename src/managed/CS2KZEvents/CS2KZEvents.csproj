@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(CI)' == 'true'">
-		<PackageReference Include="SwiftlyS2.CS2" Version="1.2.2" />
+		<PackageReference Include="SwiftlyS2.CS2" Version="1.3.5" />
 	</ItemGroup>
 
 	<ItemGroup>
