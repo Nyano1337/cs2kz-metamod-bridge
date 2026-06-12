@@ -13,7 +13,7 @@ internal partial class KZEventPublisher : IDisposable
 {
 	[LibraryImport("cs2kz-bridge", EntryPoint = "RegisterScriptingEventTable")]
 	[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-	[return: MarshalAs(UnmanagedType.Bool)]
+	[return: MarshalAs(UnmanagedType.I1)]
 	private static partial bool RegisterScriptingEventTable(nint scriptingTable);
 
 	private unsafe ScriptingEventTable* _scriptingEventTable;
