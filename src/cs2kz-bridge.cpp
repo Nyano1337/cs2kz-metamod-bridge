@@ -1,15 +1,11 @@
 #include "cs2kz-bridge.h"
 #include "details.h"
-#include <libmodule/module.h>
 
 CKZBridgePlugin g_KZBridgePlugin;
-CKZBridgeDetails g_KZBridgeDetails;
-
 PLUGIN_EXPOSE(CKZBridgePlugin, g_KZBridgePlugin);
 
-libmodule::CModule g_KZModule;
-bool (*pKZTimerService__RegisterEventListener)(KZTimerServiceEventListener* eventListener) = nullptr;
-KZCourseDescriptor* (*pKZ__course__GetCourseByGUID)(int guid) = nullptr;
+ICS2KZ* g_pCS2KZ;
+CKZBridgeDetails g_KZBridgeDetails;
 
 bool CKZBridgePlugin::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, bool late) {
 	PLUGIN_SAVEVARS();
@@ -18,25 +14,15 @@ bool CKZBridgePlugin::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxle
 }
 
 void CKZBridgePlugin::AllPluginsLoaded() {
-	g_KZModule.InitFromName("cs2kz");
-	if (!g_KZModule.IsValid()) {
+	g_pCS2KZ = (ICS2KZ*)g_SMAPI->MetaFactory(CS2KZ_INTERFACE, nullptr, nullptr);
+	if (!g_pCS2KZ) {
 #ifdef _OD
 		DebuggerBreak();
 #endif
 		return;
 	}
 
-	auto pKZRecordingService__Init = g_KZModule.FindPattern("48 83 EC ? 48 8D 0D ? ? ? ? E8 ? ? ? ? B9");
-	pKZTimerService__RegisterEventListener = pKZRecordingService__Init.Offset(11).FollowNearCallSelf().RCast<decltype(pKZTimerService__RegisterEventListener)>();
-	if (pKZTimerService__RegisterEventListener) {
-		pKZTimerService__RegisterEventListener(&g_KZBridgeDetails);
-	}
-
-	pKZ__course__GetCourseByGUID = g_KZModule.FindPattern("44 8B 0D ? ? ? ? 45 85 C9 7E ? 4C 8B 15 ? ? ? ? 33 C0 66 66 66 0F 1F 84 00 ? ? ? ? 4C 63 C0 4B 8B 14 C2 39 8A C8 00 00 00").RCast<decltype(pKZ__course__GetCourseByGUID)>();
-
-	if (pKZTimerService__RegisterEventListener && pKZ__course__GetCourseByGUID) {
-		CKZBridgeDetails::m_bInjected = true;
-	}
+	g_pCS2KZ->RegisterEventListener(&g_KZBridgeDetails);
 }
 
 const char* CKZBridgePlugin::GetAuthor() {
@@ -75,6 +61,6 @@ CKZBridgePlugin* KZBridgePlugin() {
 	return &g_KZBridgePlugin;
 }
 
-const KZCourseDescriptor* KZ::course::GetCourse(u32 guid) {
-	return pKZ__course__GetCourseByGUID(guid);
+ICS2KZ* GetCS2KZ() {
+	return g_pCS2KZ;
 }

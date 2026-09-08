@@ -17,3 +17,4 @@ private:
 };
 
 extern CKZBridgePlugin* KZBridgePlugin();
+extern class ICS2KZ* GetCS2KZ();

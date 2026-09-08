@@ -1,13 +1,9 @@
 #include "details.h"
-#include <kz/mode/kz_mode.h>
+#include "cs2kz-bridge.h"
 
 ScriptingEventTable* g_pScriptingEventTable;
 
 bool RegisterScriptingEventTable(ScriptingEventTable* pScriptingEventTable) {
-	if (!CKZBridgeDetails::m_bInjected) {
-		return false;
-	}
-
 	if (pScriptingEventTable) {
 		g_pScriptingEventTable = pScriptingEventTable;
 	}
@@ -15,14 +11,20 @@ bool RegisterScriptingEventTable(ScriptingEventTable* pScriptingEventTable) {
 	return true;
 }
 
-void CKZBridgeDetails::OnTimerStartPost(KZPlayer* player, u32 courseGUID) {
+void CKZBridgeDetails::OnTimerStartPost(int slot, const KZCourseInfo& course) {
 	if (g_pScriptingEventTable) {
-		g_pScriptingEventTable->OnTimerStartPost(player->GetController(), player->modeService->GetModeShortName(), KZ::course::GetCourse(courseGUID)->GetName().Get());
+		KZTimerStatus state {};
+		if (GetCS2KZ()->GetTimerStatus(slot, &state)) {
+			g_pScriptingEventTable->OnTimerStartPost(slot, state.modeShortName, course.name);
+		}
 	}
 }
 
-void CKZBridgeDetails::OnTimerEndPost(KZPlayer* player, u32 courseGUID, f32 time, u32 teleportsUsed) {
+void CKZBridgeDetails::OnTimerEndPost(int slot, const KZCourseInfo& course, float time, uint32_t teleportsUsed) {
 	if (g_pScriptingEventTable) {
-		g_pScriptingEventTable->OnTimerEndPost(player->GetController(), player->modeService->GetModeShortName(), KZ::course::GetCourse(courseGUID)->GetName().Get(), time, teleportsUsed);
+		KZTimerStatus state {};
+		if (GetCS2KZ()->GetTimerStatus(slot, &state)) {
+			g_pScriptingEventTable->OnTimerEndPost(slot, state.modeShortName, course.name, time, teleportsUsed);
+		}
 	}
 }

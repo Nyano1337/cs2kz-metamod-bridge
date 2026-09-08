@@ -1,19 +1,19 @@
 #pragma once
 
-#include <kz/timer/kz_timer.h>
+#include <public/ics2kz.h>
+#include <public/tier0/platform.h>
 
-class CKZBridgeDetails : public KZTimerServiceEventListener {
+class CKZBridgeDetails : public ICS2KZEventListener {
 public:
-	virtual void OnTimerStartPost(KZPlayer* player, u32 courseGUID) override;
-	virtual void OnTimerEndPost(KZPlayer* player, u32 courseGUID, f32 time, u32 teleportsUsed) override;
+	virtual void OnTimerStartPost(int slot, const KZCourseInfo& course) override;
 
-public:
-	static inline bool m_bInjected = false;
+	// The player finished a run. `time` is the final run time in seconds.
+	virtual void OnTimerEndPost(int slot, const KZCourseInfo& course, float time, uint32_t teleportsUsed) override;
 };
 
 struct ScriptingEventTable {
-	void (*OnTimerStartPost)(void* pPlayerController, const char* pszMode, const char* pszCourse);
-	void (*OnTimerEndPost)(void* pPlayerController, const char* pszMode, const char* pszCourse, f32 time, u32 teleportsUsed);
+	void (*OnTimerStartPost)(int slot, const char* pszMode, const char* pszCourse);
+	void (*OnTimerEndPost)(int slot, const char* pszMode, const char* pszCourse, float time, uint32_t teleportsUsed);
 };
 
 DLL_EXPORT bool RegisterScriptingEventTable(ScriptingEventTable* pScriptingEventTable);

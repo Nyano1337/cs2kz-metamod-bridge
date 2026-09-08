@@ -6,8 +6,8 @@ namespace CS2KZEvents.Structs;
 internal unsafe struct ScriptingEventTable
 {
 	[FieldOffset(0)]
-	internal delegate* unmanaged<nint, byte*, byte*, void> fnOnTimerStartPost;
+	internal delegate* unmanaged<int, byte*, byte*, void> fnOnTimerStartPost;
 
 	[FieldOffset(8)]
-	internal delegate* unmanaged<nint, byte*, byte*, float, uint, void> fnOnTimerEndPost;
+	internal delegate* unmanaged<int, byte*, byte*, float, uint, void> fnOnTimerEndPost;
 }

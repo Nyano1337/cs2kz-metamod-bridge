@@ -1,6 +1,7 @@
 using CS2KZEvents.Events;
 using CS2KZEvents.Shared;
 using CS2KZEvents.Structs;
+using Microsoft.Extensions.Logging;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.SchemaDefinitions;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ internal partial class KZEventPublisher : IDisposable
 	private static partial bool RegisterScriptingEventTable(nint scriptingTable);
 
 	private unsafe ScriptingEventTable* _scriptingEventTable;
-	private readonly ISwiftlyCore _core;
+	private static ISwiftlyCore? _core;
 
 	private static readonly List<KZEventListener> subscribers = [];
 	private static readonly Lock subscribersLock = new();
@@ -106,11 +107,18 @@ internal partial class KZEventPublisher : IDisposable
 	}
 
 	[UnmanagedCallersOnly]
-	internal unsafe static void OnTimerStartPost(nint pPlayerController, byte* pszMode, byte* pszCourse)
+	internal unsafe static void OnTimerStartPost(int slot, byte* pszMode, byte* pszCourse)
 	{
+		var player = _core!.PlayerManager.GetPlayer(slot);
+		if (player == null || !player.IsValid)
+		{
+			_core!.Logger.LogError("[OnTimerStartPost] GetPlayer from slot {slot} failed!", slot);
+			return;
+		}
+
 		OnTimerStartPostEvent @event = new()
 		{
-			PlayerController = Helper.AsSchema<CCSPlayerController>(pPlayerController),
+			PlayerController = player.RequiredController,
 			Mode = Marshal.PtrToStringUTF8((nint)pszMode) ?? "NULL",
 			Course = Marshal.PtrToStringUTF8((nint)pszCourse) ?? "NULL",
 		};
@@ -122,11 +130,18 @@ internal partial class KZEventPublisher : IDisposable
 	}
 
 	[UnmanagedCallersOnly]
-	internal unsafe static void OnTimerEndPost(nint pPlayerController, byte* pszMode, byte* pszCourse, float time, uint teleportsUsed)
+	internal unsafe static void OnTimerEndPost(int slot, byte* pszMode, byte* pszCourse, float time, uint teleportsUsed)
 	{
+		var player = _core!.PlayerManager.GetPlayer(slot);
+		if (player == null || !player.IsValid)
+		{
+			_core!.Logger.LogError("[OnTimerEndPost] GetPlayer from slot {slot} failed!", slot);
+			return;
+		}
+
 		OnTimerEndPostEvent @event = new()
 		{
-			PlayerController = Helper.AsSchema<CCSPlayerController>(pPlayerController),
+			PlayerController = player.RequiredController,
 			Mode = Marshal.PtrToStringUTF8((nint)pszMode) ?? "NULL",
 			Course = Marshal.PtrToStringUTF8((nint)pszCourse) ?? "NULL",
 			Time = time,
