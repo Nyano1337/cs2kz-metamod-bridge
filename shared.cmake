@@ -109,4 +109,5 @@ include_directories(
 	${MM_ROOT}/core
 	${MM_ROOT}/core/sourcehook
 	${MM_ROOT}/public
+	${MM_ROOT}/third_party/khook/include
 )
